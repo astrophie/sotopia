@@ -32,6 +32,15 @@ display_omniscent_chat = st.Page("./pages/omniscient_chat.py", title="Omniscient
 
 pg = st.navigation([display_intro, display_scenarios, display_episodes, display_simple_chat, display_omniscent_chat])
 
+# Reset active agent when switching modes across pages
+if "mode" not in st.session_state or pg.title != st.session_state.get("mode", None):
+    if "active" in st.session_state:
+        del st.session_state["active"]
+        # print("Active agent reset.")
+    
+    st.session_state.mode = pg.title
+
+
 # DB URL Configuration
 if "DEFAULT_DB_URL" not in st.session_state:
     st.session_state.DEFAULT_DB_URL = os.environ.get("REDIS_OM_URL", "")
