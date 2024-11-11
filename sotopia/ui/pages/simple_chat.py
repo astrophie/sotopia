@@ -4,6 +4,5 @@ from sotopia.ui.socialstream.utils import initialize_session_state, reset_databa
 
 st.title("Simple Chat")
 
-# Display Simple Chat Functionality
-st.write("This is the basic chat interface.")
+st.write("Here are some instructions about using the chat.")
 chat_demo_simple()

@@ -22,7 +22,7 @@ def update_database_callback() -> None:
 
     print("Updated DB URL: ", st.session_state.current_database_url)
 
-
+st.title("Episode")
 st.markdown(
     """
     <style>
@@ -37,18 +37,18 @@ DISPLAY_MODE = "Display Episodes"
 CHAT_SIMPLE_MODE = "Simple Chat"
 CHAT_OMNISCIENT_MODE = "Omniscient Chat & Editable Scenario"
 
-if "DEFAULT_DB_URL" not in st.session_state:
-    st.session_state.DEFAULT_DB_URL = os.environ.get("REDIS_OM_URL", "")
-    st.session_state.current_database_url = st.session_state.DEFAULT_DB_URL
-    print("Default DB URL: ", st.session_state.DEFAULT_DB_URL)
+# if "DEFAULT_DB_URL" not in st.session_state:
+#     st.session_state.DEFAULT_DB_URL = os.environ.get("REDIS_OM_URL", "")
+#     st.session_state.current_database_url = st.session_state.DEFAULT_DB_URL
+#     print("Default DB URL: ", st.session_state.DEFAULT_DB_URL)
 
-# impl 1: use sidebar to update URL
-new_database_url = st.sidebar.text_input(
-    "Enter Database URL: (Optional, starting in redis://)",
-    value="",
-    on_change=update_database_callback,
-    key="new_database_url",
-)
+# # impl 1: use sidebar to update URL
+# new_database_url = st.sidebar.text_input(
+#     "Enter Database URL: (Optional, starting in redis://)",
+#     value="",
+#     on_change=update_database_callback,
+#     key="new_database_url",
+# )
 
 # # impl 2: use query params in URL
 # query_params = st.experimental_get_query_params()
