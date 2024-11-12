@@ -55,7 +55,7 @@ def chat_demo() -> None:
             reset_agents=True,
         )
 
-    with st.sidebar:
+    with st.container():
         st.checkbox(
             "Make the scenario editable",
             key="edit_scenario",
@@ -137,7 +137,7 @@ def chat_demo() -> None:
                 st.text_area(
                     label="Change the scenario here:",
                     value=f"""{env_info}""",
-                    height=50,
+                    height=68,
                     on_change=edit_callback,
                     key="edited_scenario",
                     disabled=st.session_state.active or not st.session_state.editable,
@@ -174,7 +174,7 @@ def chat_demo() -> None:
                                 st.text_area(
                                     label=f"{trait_name.capitalize()}",
                                     value=f"""{getattr(agent_list[agent_idx].profile, trait_name)}""",
-                                    height=5,
+                                    height=68,
                                     disabled=st.session_state.active
                                     or not st.session_state.editable,
                                     on_change=agent_edit_callback_finegrained,
@@ -303,6 +303,8 @@ def chat_demo() -> None:
         message for message in messages if message["role"] not in tag_for_eval
     ]
     evaluation = [message for message in messages if message["role"] in tag_for_eval]
+
+    st.markdown("---")
 
     with st.expander("Chat History", expanded=True):
         streamlit_rendering(chat_history)

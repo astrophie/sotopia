@@ -52,7 +52,7 @@ def chat_demo() -> None:
             reset_agents=True,
         )
 
-    with st.sidebar:
+    with st.container():
         with st.expander("Create your scenario!", expanded=True):
             scenarios = st.session_state.env_mapping
             agent_list_1, agent_list_2 = st.session_state.agent_mapping
@@ -208,6 +208,7 @@ def chat_demo() -> None:
     ]
     evaluation = [message for message in messages if message["role"] in tag_for_eval]
 
+    st.markdown("---")
     with st.expander("Chat History", expanded=True):
         streamlit_rendering(chat_history)
 

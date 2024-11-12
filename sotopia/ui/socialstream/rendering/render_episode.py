@@ -14,6 +14,7 @@ from sotopia.ui.socialstream.utils import (
     initialize_session_state,
 )
 
+
 role_mapping = {
     "Background Info": "background",
     "System": "info",
@@ -22,6 +23,11 @@ role_mapping = {
     "General": "eval",
 }
 
+def local_css(file_name):
+    with open(file_name) as f:
+        # print("\n\n STYLING", f.read())
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 
 def update_database_callback() -> None:
     pass
@@ -29,6 +35,7 @@ def update_database_callback() -> None:
 
 def rendering_demo() -> None:
     initialize_session_state()
+    local_css("./././css/style.css")
 
     codenames = list(st.session_state.all_codenames.keys())
 
@@ -38,7 +45,7 @@ def rendering_demo() -> None:
             EpisodeLog.environment == st.session_state.all_codenames[codename_key]
         ).all()
 
-    with st.sidebar:
+    with st.container():
         # Dropdown for codename selection
         st.selectbox(
             "Choose a codename:",
@@ -47,6 +54,11 @@ def rendering_demo() -> None:
             on_change=update,
             key="selected_codename",
         )
+
+        # episode = st.selectbox(
+        #     "Which episode would you like to see?",
+        #     [f"{str(i)}-" for i in range(len(st.session_state.current_episodes))],
+        # )
 
         selected_index = st.number_input(
             "Specify the index of the episode to display:",
@@ -90,9 +102,31 @@ def rendering_demo() -> None:
             assert (
                 len(background_messages) == 2
             ), f"Need 2 background messages, but got {len(background_messages)}"
+            # st.markdown(
+            #     f"**Scenario**: { render_text_for_environment(environment.scenario)}"
+            # )
+            print(f"\n\ENVIRONMENT {environment}")
+
             st.markdown(
-                f"**Scenario**: { render_text_for_environment(environment.scenario)}"
-            )
+        f"""
+        <div style="background-color: #f9f9f9; padding: 10px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+            <p><strong>Scenario</strong>: { render_text_for_environment(environment.scenario)}</p>
+            <div style="margin-top: 20px;">
+                <div style="display: inline-block; width: 48%; vertical-align: top;">
+                    <p><strong>Agent 1's Goal</strong></p>
+                    <div style="background-color: #D1E9F6; padding: 10px; border-radius: 10px; margin-bottom: 5px;">
+                        <p class="truncate">{agent_goals[0]}</p>
+                    </div>
+                </div>
+                <div style="display: inline-block; width: 48%; vertical-align: top;">
+                    <p><strong>Agent 2's Goal</strong></p>
+                    <div style="background-color: #D1E9F6; padding: 10px; border-radius: 10px; margin-bottom: 5px;">
+                        <p class="truncate">{agent_goals[1]}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
             info_col1, info_col2 = st.columns(2)
             info_1 = _agent_profile_to_friendabove_self(agents[0], agent_id=1)
@@ -105,14 +139,9 @@ def rendering_demo() -> None:
                 with st.expander(f"**{agent_names[1]}'s Info:** {get_preview(info_2)}"):
                     st.markdown(info_2)
 
-            goal_col1, goal_col2 = st.columns(2)
-            with goal_col1:
-                with st.expander(f"**Agent 1 Goal:** {get_preview(agent_goals[0])}"):
-                    st.markdown(agent_goals[0])
-            with goal_col2:
-                with st.expander(f"**Agent 2 Goal:** {get_preview(agent_goals[1])}"):
-                    st.markdown(agent_goals[1])
+    st.markdown("---")
 
+    st.subheader("Conversation & Evaluation")
     with st.expander("Conversation", expanded=True):
         for index, message in enumerate(conversation_messages):
             role = role_mapping.get(message["role"], message["role"])
