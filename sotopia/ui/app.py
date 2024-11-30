@@ -26,11 +26,12 @@ st.set_page_config(page_title="SocialStream_Demo", page_icon="🧊", layout="wid
 display_intro = st.Page("./pages/intro.py", title="Introduction", icon=":material/home:")
 display_episodes = st.Page("./pages/display_episodes.py", title="Episode", icon=":material/photo_library:")
 display_scenarios = st.Page("./pages/display_scenarios.py", title="Scenarios", icon=":material/insert_drive_file:")
+display_characters = st.Page("./pages/display_characters.py", title="Characters", icon=":material/people:")
 display_simple_chat = st.Page("./pages/simple_chat.py", title="Simple Chat", icon=":material/chat:")
 display_omniscent_chat = st.Page("./pages/omniscient_chat.py", title="Omniscient Chat and Editing", icon=":material/add:")
 # st.logo("./figs/haicosys.svg", icon_image="./figs/haicosys.svg", size="large", link="https://haicosystem.org")
 
-pg = st.navigation([display_intro, display_scenarios, display_episodes, display_simple_chat, display_omniscent_chat])
+pg = st.navigation([display_intro, display_scenarios, display_episodes, display_characters, display_simple_chat, display_omniscent_chat])
 
 # Reset active agent when switching modes across pages
 if "mode" not in st.session_state or pg.title != st.session_state.get("mode", None):
